@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  resources :domains
+  resources :domains 
+  	post "/domains/search", to: "domains#search"
 
-  root to: 'visitors#index'
+  root to: 'domains#index'
+
 end

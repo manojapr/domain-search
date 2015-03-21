@@ -4,14 +4,18 @@ class DomainsController < ApplicationController
   # GET /domains
   # GET /domains.json
   def index
-    #@domains = Domain.all
-    @list = Domain.domainblob_main()
-
+    @list = params[:param]
+    @history = SearchHistory.find_user_search_history(request.remote_ip)
   end
 
   # GET /domains/1
   # GET /domains/1.json
-  def show
+  def search
+    @new_search = params[:name]
+    
+    SearchHistory.add_search_data(request.remote_ip, @new_search)
+    list = Domain.domainblob_main(@new_search)
+    redirect_to url_for(:controller => :domains, :action => :index, :param => list)
   end
 
   # GET /domains/new
@@ -71,6 +75,7 @@ class DomainsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def domain_params
-      params[:domain]
+      #params[:domain]
+      params[:name]
     end
 end

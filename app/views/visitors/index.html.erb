@@ -1,1 +1,5 @@
 <h3>Welcome</h3>
+<%= form_tag index_domains_path , :method => 'post'  do |f|  %>
+    <%= f.text_field  :search_item %>
+    <%= f.submit "Search Here", class: "btn btn-primary" %>
+ <%end%>

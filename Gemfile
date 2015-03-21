@@ -7,6 +7,8 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
+gem 'whois'
+gem 'redis', '~> 3.0.7'
 group :development, :test do
   gem 'byebug'
   gem 'web-console', '~> 2.0'
@@ -15,7 +17,6 @@ end
 gem 'bootstrap-sass'
 gem 'high_voltage'
 group :development do
-  gem 'better_errors'
   gem 'quiet_assets'
   gem 'rails_layout'
   gem 'spring-commands-rspec'

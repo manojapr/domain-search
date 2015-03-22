@@ -11,8 +11,7 @@ class DomainsController < ApplicationController
   # GET /domains/1
   # GET /domains/1.json
   def search
-    @new_search = params[:name]
-    
+    @new_search = params[:name]  
     SearchHistory.add_search_data(request.remote_ip, @new_search)
     list = Domain.domainblob_main(@new_search)
     redirect_to url_for(:controller => :domains, :action => :index, :param => list)

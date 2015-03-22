@@ -11,9 +11,7 @@ class Domain < ActiveRecord::Base
 @suffixArray = ['Aa', 'Aaa']
 @prefixArray = ['Aa', 'Aaa']
 
-
 @res = Hash.new
-
   def self.ask_whois_dotnet(query)
     begin
       doc = Nokogiri::HTML(open('http://www.whois.com/whois/'+query,'User-Agent' => 'ruby'))
@@ -76,11 +74,11 @@ class Domain < ActiveRecord::Base
   end
 
   def self.get_root_domains(q)
-    prefixs = %w(.com .org .net .co .io .ly .bla)
+    prefixs = %w(.com .org .net .co .io .ly)
     threads = [] 
     for prefix in prefixs 
          threads << Thread.new(prefix) do |prefix| 
-          @res[prefix] = checkDomain(q+prefix)
+          @res[q+prefix] = checkDomain(q+prefix)
          end
     end 
     threads.each { |aThread| aThread.join } 
@@ -98,16 +96,13 @@ class Domain < ActiveRecord::Base
       thePhrase.strip!
       timeThen = Time.now
       get_root_domains(thePhrase)
-      #now we cycle through prefixes, then suffixes for this phrase
-      
+      #now go through prefixes, then suffixes for this phrase   
       for each in @prefixArray
-        @res[each] = checkDomain(each + thePhrase + ".com")
+        @res[each+thePhrase+'.com'] = checkDomain(each + thePhrase + ".com")
       end
       for each in @suffixArray
-       @res[each] = checkDomain(thePhrase + each + ".com")
+       @res[thePhrase+each+'.com'] = checkDomain(thePhrase + each + ".com")
       end
-    #   blobResults.puts ($whoiscounter + $whoisdotnetcounter + $httpcounter).to_s + " total domains were checked"
-    #   File.rename(thePhrase+".txt", thePhrase+availNum.to_s+".txt")
     return @res
   end
   
